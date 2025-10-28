@@ -1,6 +1,6 @@
-## Kafka Implementation (Monorepo)
+## Kafka Monorepo (Monorepo)
 
-Comprehensive documentation for the kafka-implementation monorepo. This project demonstrates a minimal microservices example using NestJS + Kafka (kafkajs), organized as a monorepo with local libs for logging and metrics.
+Comprehensive documentation for the kafka-monorepo monorepo. This project demonstrates a minimal microservices example using NestJS + Kafka (kafkajs), organized as a monorepo with local libs for logging and metrics.
 
 This README uses Unix-style commands (bash) for examples.
 
