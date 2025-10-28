@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'services'
+    static_configs:
+      - targets: ['orders:9101','payments:9102','notifications:9103']
+    metrics_path: /metrics
+# Note: `host.docker.internal` is used so Prometheus running inside Docker can scrape services
+# running on the host (when you run services with `npm run dev`). If you containerize services,
+# replace the targets with their Docker service names and ports.

@@ -1,0 +1,13 @@
+{
+  "name": "@kafka/metrics",
+  "version": "0.1.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "prom-client": "^15.0.0"
+  }
+}

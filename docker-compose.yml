@@ -1,0 +1,104 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '2181:2181'
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    ports:
+      - '9092:9092'
+
+  mongodb:
+    image: mongo:6.0
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+  orders:
+    build:
+      context: .
+      dockerfile: services/orders/Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+      # Optional: explicit client id for easier tracing in broker logs
+      - KAFKA_CLIENT_ID=orders-client
+      # Silence KafkaJS partitioner warning in logs
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+    ports:
+      - '3001:3001'
+      - '9101:9101'
+
+  payments:
+    build:
+      context: .
+      dockerfile: services/payments/Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+      - PAYMENTS_CONSUMER_GROUP=payments-consumer
+      - KAFKA_CLIENT_ID=payments-client
+      # Silence KafkaJS partitioner warning in logs
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+    ports:
+      - '9102:9102'
+
+  notifications:
+    build:
+      context: .
+      dockerfile: services/notifications/Dockerfile
+    depends_on:
+      - kafka
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+      # Explicit consumer group used by the notifications microservice
+      - NOTIFICATIONS_CONSUMER_GROUP=notifications-consumer
+      - KAFKA_CLIENT_ID=notifications-client
+      # Silence KafkaJS partitioner warning in logs
+      - KAFKAJS_NO_PARTITIONER_WARNING=1
+    ports:
+      - '9103:9103'
+
+volumes:
+  mongo-data:
+    driver: local
+  grafana-data:
+    driver: local

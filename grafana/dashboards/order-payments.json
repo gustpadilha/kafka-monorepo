@@ -1,0 +1,71 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1629398435400,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "id": 2,
+      "options": {},
+      "targets": [
+        { "expr": "orders_created_total", "legendFormat": "orders_created_total", "refId": "A" }
+      ],
+      "title": "Orders Created",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "id": 4,
+      "options": {},
+      "targets": [
+        { "expr": "payments_processed_total", "legendFormat": "processed", "refId": "A" },
+        { "expr": "payments_failed_total", "legendFormat": "failed", "refId": "B" }
+      ],
+      "title": "Payments (processed / failed)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "id": 6,
+      "options": {},
+      "targets": [
+        { "expr": "rate(payment_processing_seconds_sum[5m]) / rate(payment_processing_seconds_count[5m])", "legendFormat": "avg_processing_s", "refId": "A" }
+      ],
+      "title": "Avg Payment Processing Time (5m)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": {}, "overrides": [] },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "id": 8,
+      "options": {},
+      "targets": [
+        { "expr": "notifications_sent_total", "legendFormat": "notifications", "refId": "A" }
+      ],
+      "title": "Notifications Handled",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": ["orders", "payments", "notifications"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Orders & Payments Overview",
+  "uid": "orders-payments-overview",
+  "version": 1
+}
