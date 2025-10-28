@@ -1,3 +1,7 @@
 dist/
 node_modules/
 *.log
+# Lockfiles
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
