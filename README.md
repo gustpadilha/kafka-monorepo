@@ -138,6 +138,31 @@ curl -X POST http://localhost:3001/orders \
 ## Metrics (Prometheus)
 
 - The project exposes Prometheus metrics per service. Prometheus and Grafana are included in `docker-compose.yml` and a dashboard is available under `grafana/provisioning`.
+  
+### Grafana dashboard
+
+This repository includes a provisioned Grafana dashboard that visualizes the key metrics for the example flows (orders → payments → notifications).
+
+- Dashboard file: `grafana/dashboards/order-payments.json`
+- Dashboard title: "Orders & Payments Overview"
+- Dashboard UID: `orders-payments-overview`
+
+When running with Docker Compose the dashboard is automatically loaded by the Grafana container (the compose file mounts `./grafana/provisioning` and `./grafana/dashboards` into the container).
+
+Accessing Grafana locally:
+
+```bash
+docker-compose up -d --build
+# Grafana UI: http://localhost:3000
+# Default credentials (as configured in docker-compose): admin / admin
+```
+
+To jump straight to the dashboard in a running Grafana instance use the UID path:
+
+```
+http://localhost:3000/d/orders-payments-overview
+```
+
 - Services expose metrics endpoints on the ports configured in the compose file (see `docker-compose.yml`). Example mappings used in compose:
   - orders metrics: 9101
   - payments metrics: 9102
