@@ -1,7 +1,7 @@
-[![CI](https://github.com/gustpadilha/kafka-implementation/actions/workflows/ci.yml/badge.svg)](https://github.com/gustpadilha/kafka-implementation/actions/workflows/ci.yml)
-## Kafka Implementation (Monorepo)
+[![CI](https://github.com/gustpadilha/kafka-monorepo/actions/workflows/ci.yml/badge.svg)](https://github.com/gustpadilha/kafka-monorepo/actions/workflows/ci.yml)
+## Kafka (Monorepo)
 
-Comprehensive documentation for the kafka-monorepo monorepo. This project demonstrates a minimal microservices example using NestJS + Kafka (kafkajs), organized as a monorepo with local libs for logging and metrics.
+Comprehensive documentation for the kafka monorepo. This project demonstrates a minimal microservices example using NestJS + Kafka (kafkajs), organized as a monorepo with local libs for logging and metrics.
 
 This README uses Unix-style commands (bash) for examples.
 
